@@ -9,7 +9,7 @@ exports.up = function(knex) {
   .createTable('posts', tbl => {
       tbl.increments()
       tbl.string('post_title', 60).unique().notNullable()
-      tbl.string('post_sub_reddit', 90).notNullable()
+      tbl.string('post_sub_reddit', 90)
       tbl.string('post_text', 255).notNullable()
       // foreign key
       tbl.integer('user_id')
