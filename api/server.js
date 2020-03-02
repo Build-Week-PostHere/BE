@@ -4,7 +4,8 @@ const cors = require('cors')
 const helmet = require('helmet')
 
 
-// Import Global Middleware and routes
+// Import Custom Global Middleware and Routes
+const authRouter = require('../auth/authRouter.js')
 
 // create server
 const server = express()
@@ -14,7 +15,7 @@ server.use(helmet())
 server.use(cors())
 server.use(express.json())
 // Hook up routes
-
+server.use('/api/auth', authRouter)
 // root endpoint
 server.get('/', (req, res) => {
     res.send("This is a message from the route of the server!")
