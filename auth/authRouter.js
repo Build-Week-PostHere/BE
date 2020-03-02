@@ -30,19 +30,22 @@ router.post('/register', (req, res) => {
 
 // (2) - LOGIN ENDPOINT
 router.post('/login', (req, res) => {
+
     const { username, password } = req.body
+    
     Users.findBy({ username })
         .first()
         .then((user) => {
             if (user && bcrypt.compareSync(password, user.password)) {
-                token = generateToken(user) // LEFT OFF
+                token = generateToken(user) 
+                console.log("This is the user:", user)
                 res.status(200).json({ message:`Welcome, ${user.username}!`, token})
             } else {
                 res.status(401).json({ message:"Username or password is incorrect." })
             }
         })
         .catch(({name, message, stack}) => {
-            res.status(500).json({name:name, message:message, stack:stack })
+            res.status(500).json({ name:name, message:message, stack:stack })
         })
 })
 

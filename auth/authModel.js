@@ -16,8 +16,8 @@ function register(user) {
         // })
 }
 
-function findBy(filter) {
-    return db('users').select('id', 'username').where(filter)
+function findBy(username) {
+    return db('users').select('id', 'username', 'password').where(username).first()
 }
 
 function findById(id) {
