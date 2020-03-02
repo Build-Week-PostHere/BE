@@ -2,7 +2,7 @@ const Users = require('./authModel.js')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 // bring in the secret
-const { jwtSecret } = require('../config/secrets.js')
+// const { jwtSecret } = require('../config/secrets.js')
 // create the router
 const router = require('express').Router()
 // endpoints
@@ -47,7 +47,7 @@ function generateToken(user) {
         subject: user.id,
         username: user.username
     }
-    // secret is imported at top of file
+    const secret = process.env.JWT_SECRET || 'my secret'
 
     // options
     const options = {
@@ -55,7 +55,7 @@ function generateToken(user) {
     }
 
     // signature
-    return jwt.sign(payload, jwtSecret, options)
+    return jwt.sign(payload, secret, options)
 }
 
 module.exports = router
