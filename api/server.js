@@ -5,6 +5,7 @@ const helmet = require('helmet')
 
 
 // Import Custom Global Middleware and Routes
+const restricted = require('../auth/restricted-middleware.js')
 const authRouter = require('../auth/authRouter.js')
 
 // create server
