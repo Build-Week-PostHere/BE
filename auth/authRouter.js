@@ -32,14 +32,14 @@ router.post('/register', (req, res) => {
 router.post('/login', (req, res) => {
 
     const { username, password } = req.body
-    
+
     Users.findBy({ username })
         .first()
         .then((user) => {
             if (user && bcrypt.compareSync(password, user.password)) {
                 token = generateToken(user) 
                 console.log("This is the user:", user)
-                res.status(200).json({ message:`Welcome, ${user.username}!`, token})
+                res.status(200).json({ message:`Welcome, ${user.username}!`, id: user.id, token})
             } else {
                 res.status(401).json({ message:"Username or password is incorrect." })
             }
