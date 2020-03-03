@@ -19,6 +19,7 @@ router.get('/:id', (req, res) => {
 router.post('/:id', (req, res) => {
     const { id } = req.params
     const post = req.body
+    
     console.log("This is the post:", post)
     if (post && post.post_title && post.post_text) {
 
