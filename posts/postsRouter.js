@@ -1,6 +1,6 @@
 const Posts = require('./postsModel.js')
-
 const express = require('express')
+const analyze = require('./analyze-middleware.js')
 
 const router = express.Router()
 
@@ -20,27 +20,28 @@ router.get('/:id', (req, res) => {
     } else {
         res.status(400).json({message:"You are not authorized to access these posts."})
     }
-
 })
 
-router.post('/:id', (req, res) => {
+router.post('/:id', analyze, (req, res) => {
     const { id } = req.params
     const post = req.body
     const subject = req.decodedToken.subject
+    const prediction = req.prediction
 
-    if (post && post.post_title && post.post_text && subject.toString() === id) {
-
-        Posts.addPost({...post, user_id: id})
-            .then((id) => {
-                res.status(201).json({id:id, message:"Successfully added post."})
-            })
-            .catch((error) => {
-                res.status(500).json({message:"Server failed."})
-            })
+    if (post && post.post_title && post.post_text && subject.toString() === id) {   
+    Posts.addPost({...post, post_sub_reddit:prediction, user_id: id})
+        .then((id) => {
+            console.log("This is the post:", post)
+            res.status(201).json({id:id, prediction:prediction, message:"Successfully added post."})
+        })
+        .catch((error) => {
+            res.status(500).json({message:"Server failed."})
+        })
     } else {
-        res.status(400).json({message:"Please provide a title and text. If you have a title or text, then you are not authorized to post here."})
+        res.status(400).json({message:"Post title or post text was not provided. If they were then you are not authorized to post here."})
     }
 })
+
 
 router.get('/:id/post/:post_id', (req, res) => {
     const id = req.params.id
@@ -79,16 +80,17 @@ router.delete('/:id/post/:post_id', (req, res) => {
 
 })
 
-router.put('/:id/post/:post_id', (req, res) => {
+router.put('/:id/post/:post_id', analyze, (req, res) => {
     const id = req.params.id
     const post_id = req.params.post_id
     const newPost = req.body
     const subject = req.decodedToken.subject
+    const prediction = req.prediction
 
     if (subject.toString() === id) {
         Posts.editPost(id, post_id, newPost)
         .then((updated) => {
-            res.status(200).json(updated)
+            res.status(200).json({updated, newPrediction:prediction})
         })
         .catch((error) => {
             res.status(500).json({ message:"Server failed" })
@@ -97,8 +99,6 @@ router.put('/:id/post/:post_id', (req, res) => {
         res.status(400).json({message:"You can only edit posts that you have created."})
     }
 })
-
-
 
 // export 
 module.exports = router
