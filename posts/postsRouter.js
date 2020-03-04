@@ -88,7 +88,7 @@ router.put('/:id/post/:post_id', analyze, (req, res) => {
     const prediction = req.prediction
 
     if (subject.toString() === id) {
-        Posts.editPost(id, post_id, newPost)
+        Posts.editPost(id, post_id, {...newPost, post_sub_reddit:prediction})
         .then((updated) => {
             res.status(200).json({updated, newPrediction:prediction})
         })
