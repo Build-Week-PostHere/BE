@@ -30,8 +30,8 @@ router.post('/:id', analyze, (req, res) => {
 
     if (post && post.post_title && post.post_text && subject.toString() === id) {   
     Posts.addPost({...post, post_sub_reddit:prediction, user_id: id, dated: new Date().toDateString()})
-        .then((id) => {
-            res.status(201).json({id:id, created: new Date().toDateString(), prediction:prediction, message:"Successfully added post."})
+        .then((postId) => {
+            res.status(201).json({id:id, post_id:postId, created: new Date().toDateString(), prediction:prediction, message:"Successfully added post."})
         })
         .catch((error) => {
             res.status(500).json({message:"Server failed."})
@@ -89,7 +89,7 @@ router.put('/:id/post/:post_id', analyze, (req, res) => {
     if (subject.toString() === id) {
         Posts.editPost(id, post_id, {...newPost, post_sub_reddit:prediction, dated: new Date().toDateString()})
         .then((updated) => {
-            res.status(200).json({updated, newPrediction:prediction, id:id, updated_date: new Date().toDateString()})
+            res.status(200).json({updated, newPrediction:prediction, post_id:post_id, updated_date: new Date().toDateString()})
         })
         .catch((error) => {
             res.status(500).json({ message:"Server failed" })
