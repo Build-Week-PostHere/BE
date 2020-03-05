@@ -31,8 +31,7 @@ router.post('/:id', analyze, (req, res) => {
     if (post && post.post_title && post.post_text && subject.toString() === id) {   
     Posts.addPost({...post, post_sub_reddit:prediction, user_id: id, dated: new Date()})
         .then((id) => {
-            console.log("This is the post:", post)
-            res.status(201).json({id:id, prediction:prediction, message:"Successfully added post."})
+            res.status(201).json({id:id, created: new Date(), prediction:prediction, message:"Successfully added post."})
         })
         .catch((error) => {
             res.status(500).json({message:"Server failed."})
