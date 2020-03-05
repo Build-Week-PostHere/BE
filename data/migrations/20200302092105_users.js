@@ -11,6 +11,7 @@ exports.up = function(knex) {
       tbl.string('post_title', 60).unique().notNullable()
       tbl.string('post_sub_reddit', 90)
       tbl.string('post_text', 255).notNullable()
+      tbl.string('dated', 255).notNullable()
       // foreign key
       tbl.integer('user_id')
         .notNullable()
