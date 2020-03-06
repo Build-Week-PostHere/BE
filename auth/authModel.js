@@ -25,6 +25,6 @@ function findById(id) {
     return db('users').select('id', 'username').where({ id })
 }
 
-function remove(id) {
-    return db('users').delete().where({ id })
+function remove(username) {
+    return db('users').delete().where(username)
 }
