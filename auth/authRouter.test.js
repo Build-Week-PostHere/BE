@@ -3,7 +3,7 @@ const request = require('supertest')
 const db = require('../data/dbConfig.js')
 const Users = require('./authModel.js')
 
-describe('auth router', function() {
+describe('auth router', function() {     
 
 
     it('POST A NEW USER: should return status 201', () => {
@@ -11,7 +11,7 @@ describe('auth router', function() {
 
         // *** please change the username before running ***
         return request(server).post('/api/auth/register')
-            .send({username:'removeMe', password:'pass'})    
+            .send({username:'removeMe123', password:'pass'})    
                 .then((response) => {  
                     expect(response.status).toBe(201)
                     expect(response.body.newId.length).toEqual(1)

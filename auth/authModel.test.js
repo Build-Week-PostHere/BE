@@ -6,17 +6,18 @@ const Users = require('./authModel.js')
 // findById,
 // findBy
 
-describe('auth model', () => {
+describe('auth model', () => {     
     it('REGISTER: Should add a user to the database', () => {
-        Users.register({username:'coffee', password:'pass'})
+        Users.register({username:'coffe', password:'pass'})
             .then((response) => {
                 expect(db('users').toHaveLength(1))
             })
     })
     it('LOGIN: response should include the username being searched', () => {
-        Users.findBy('coffee').first()
+        Users.findBy('coffe').first()
             .then((user) => {
                 expect(user).toContain('autoTest')
+                Users.remove(52)
             })
     })
 })
