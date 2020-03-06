@@ -18,6 +18,7 @@ router.post('/register', (req, res) => {
     if (newUser && newUser.username && newUser.password) {
         Users.register(newUser)
             .then((newId) => {
+                console.log("This is the response from register:", newId)
                 res.status(201).json({ message:"Registered!", newId: newId})
             })
             .catch(({name, message, stack}) => {

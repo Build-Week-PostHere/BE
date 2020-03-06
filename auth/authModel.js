@@ -5,7 +5,8 @@ module.exports = {
     // add helpers
     register,
     findById,
-    findBy
+    findBy,
+    remove
 }
 
 function register(user) {
@@ -22,4 +23,8 @@ function findBy(username) {
 
 function findById(id) {
     return db('users').select('id', 'username').where({ id })
+}
+
+function remove(id) {
+    return db('users').delete().where({ id })
 }
